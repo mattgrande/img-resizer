@@ -6,7 +6,8 @@ require File.join(File.dirname(__FILE__), 'classes', 'image-resizer')
 options = {
 	:width  => nil,
 	:height => nil,
-	:output_filename => nil
+	:output_filename => nil,
+	:rotate => false
 }
 optparse = OptionParser.new do |opts|
 	opts.banner = 'Usage: img-resizer.rb [options]'
@@ -45,13 +46,15 @@ optparse = OptionParser.new do |opts|
 		options[:height] = h
 	end
 
+	opts.on('-r', '--rotate', 'Display this screen') do
+		options[:rotate] = true
+	end
+
 	opts.on('-?', '--help', 'Display this screen') do
 		puts opts
 		exit
 	end
 end
-
-optparse.parse!
 
 begin
   optparse.parse!
@@ -65,5 +68,7 @@ begin
 rescue OptionParser::InvalidOption, OptionParser::MissingArgument  #
 end
 
-resizer = ImageResizer.new( options[:file_name], false, options[:width], options[:height], options[:output_filename] )
+resizer = ImageResizer.new( options[:file_name], options[:rotate], options[:width], options[:height], options[:output_filename] )
 resizer.resize!
+
+puts resizer.out_file

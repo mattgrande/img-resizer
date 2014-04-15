@@ -35,7 +35,8 @@ class ImageResizer
 			@dest_height = @dest_width * @height / @width
 		end
 
-		@out_file    = out_file || "#{@file_name}_#{@dest_width}x#{@dest_height}.png"
+		fn = @file_name.gsub( '.png', '' )
+		@out_file    = out_file || "#{fn}_#{@dest_width}x#{@dest_height}.png"
 	end
 
 	def resize!
